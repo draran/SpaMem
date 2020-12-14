@@ -1,0 +1,5 @@
+# ignore all
+/*
+# choose what to version
+!.gitignore
+!01_Scripts/

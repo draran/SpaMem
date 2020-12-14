@@ -1,0 +1,264 @@
+{
+  "s":
+  {
+    "description": "Data for the Spatial task",
+    "structures":
+    {
+      "run_data":
+      {
+        "description": "all the run trials",
+        "columns":
+        {
+          "icond": "condition",
+          "icue": "cue",
+          "target_angle": "target angle in clockwise degrees from vertical",
+          "circle_location_angle": "circle location",
+          "circletargetpositionX": "circle target position X",
+          "circletargetpositionY": "circle target position Y",
+          "screentargetpositionX": "screen target position X",
+          "screentargetpositionY": "screen target position Y",
+          "average_angle": "the average gabor angle from INIT and CREATE"
+        }
+      },
+      "run_data_X":
+      {
+        "description": "X coordinates of all presented gabors in pixels where [0, 0] is upper-left corner",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      },
+      "run_data_Y":
+      {
+        "description": "Y coordinates of all presented gabors in pixels where [0, 0] is upper-left corner",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      },
+      "run_data_A":
+      {
+        "description": "Orientations of all presented gabors in 0-360 angles with 0 being 12 o'clock, and increasing counter-clockwise",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      }
+    }
+  },
+  "ns":
+  {
+    "description": "Data for the Non-spatial task",
+    "structures":
+    {
+      "run_data":
+      {
+        "description": "all the run trials",
+        "columns":
+        {
+          "icond": "condition",
+          "icue": "cue",
+          "target_angle": "target angle in clockwise degrees from vertical",
+          "circle_location_angle": "circle location",
+          "circletargetpositionX": "circle target position X",
+          "circletargetpositionY": "circle target position Y",
+          "screentargetpositionX": "screen target position X",
+          "screentargetpositionY": "screen target position Y",
+          "average_angle": "the average gabor angle from INIT and CREATE"
+        }
+      },
+      "run_data_X":
+      {
+        "description": "X coordinates of all presented gabors in pixels where [0, 0] is upper-left corner",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      },
+      "run_data_Y":
+      {
+        "description": "Y coordinates of all presented gabors in pixels where [0, 0] is upper-left corner",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      },
+      "run_data_A":
+      {
+        "description": "Orientations of all presented gabors in 0-360 angles with 0 being 12 o'clock, and increasing counter-clockwise",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      }
+    }
+  },
+  "ts":
+  {
+    "description": "Data for the True-spatial task",
+    "structures":
+    {
+      "run_data":
+      {
+        "description": "all the run trials",
+        "columns":
+        {
+          "icond": "condition",
+          "icue": "cue",
+          "target_angle": "target angle in clockwise degrees from vertical",
+          "circle_location_angle": "circle location",
+          "circletargetpositionX": "circle target position X",
+          "circletargetpositionY": "circle target position Y",
+          "screentargetpositionX": "screen target position X",
+          "screentargetpositionY": "screen target position Y",
+          "average_angle": "the average gabor angle from INIT and CREATE"
+        }
+      },
+      "run_data_X":
+      {
+        "description": "X coordinates of all presented gabors in pixels where [0, 0] is upper-left corner",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      },
+      "run_data_Y":
+      {
+        "description": "Y coordinates of all presented gabors in pixels where [0, 0] is upper-left corner",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      },
+      "run_data_A":
+      {
+        "description": "Orientations of all presented gabors in 0-360 angles with 0 being 12 o'clock, and increasing counter-clockwise",
+        "columns":
+        {
+        "1": "gabor on the left - this is the target if left side is cued",
+        "2": "gabor on the left - non-target",
+        "3": "gabor on the left - non-target",
+        "4": "gabor on the right - target if right side is cued",
+        "5": "gabor on the right - non-target",
+        "6": "gabor on the right - non-target"
+        }
+      }
+    }
+  },
+  "data":
+  {
+    "description": "The behavioural data.",
+    "columns":
+    {
+      "blockNo":
+      {
+        "description": "running block number"
+      },
+      "task":
+      {
+        "description": "the task participants run in that block",
+        "levels":
+        [
+          {
+            "1": "Spatial",
+            "description": "report orientation of a single cued gabor"
+          },
+          {
+            "2": "Non-spatial",
+            "description": "report average orientation of the three gabors on the cued side"
+          },
+          {
+            "3": "True-spatial",
+            "description": "report location of a single cued gabor"
+          }
+        ]
+      },
+      "trialNo":
+      {
+        "description": "running trial number per task"
+      },
+      "cond":
+      {
+        "description": "same as task - can be discarded"
+      },
+      "cue-side":
+      {
+        "description": "the side of display that was cued",
+        "levels":
+        {
+          "1": "Left",
+          "2": "Right"
+        }
+      },
+      "targetAngle":
+      {
+        "description": "the angle of the target gabor in range 0-360 with 0 at 12 o'clock and increasing clockwise. For non-spatial task, target angle denotes just the orientation of gabor which was nominally assigned the role of target, NOT the true target angle."
+      },
+      "targetAngle_polar":
+      {
+        "description": "The angle of the target gabor in range 0-360 with 0 at 3 o'clock and increasing counterclockwise. If the task is to average three gabors, then the targetAngle_polar is recoded the average of all three angles, NOT just of the target. "
+      },
+      "responseAngle_polar":
+      {
+        "description": "the angle of the response in range 0-360 with 0 at 3 o'clock and increasing counterclockwise. This is the only place where responseAngle is saved in any way."
+      },
+       "deltaPolar":
+      {
+        "description": "the difference angle between the target and the response  in range 0-360 with 0 at 3 o'clock and increasing counterclockwise"
+      },
+       "RT":
+      {
+        "description": "response time in seconds"
+      },
+      "fixated":
+      {
+        "description": "did an eye movement occur during the trial",
+        "levels":
+        {
+          "1": "YES, no eye movement",
+          "0": "NO, eye movement"
+        }
+      }
+    }
+  }
+}
