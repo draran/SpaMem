@@ -67,6 +67,8 @@ def main(ROOTPATH):
                     continue
                 # convert the eye data
                 logging.warning('Converting {}'.format(ipath.stem))
+                # NOTE: the first message per recording run is "StartBlock_"
+                # NOTE: we will export only the recorded data for a given run 
                 with open(ipath, 'r', encoding='utf-8') as f:
                     # load the eye data
                     tmp = f.readlines()
@@ -80,11 +82,21 @@ def main(ROOTPATH):
                         ]
                         if ':\t' in entry
                     ])
+                    idx_start = [
+                        idx 
+                        for idx, line in enumerate(tmp)
+                        if 'StartBlock_{}'.format(int(runID)) in line
+                    ]
+                    # check if there were more than one starting messages
+                    if len(idx_start) > 1:
+                        raise IndexError
+                    else:
+                        idx_start = idx_start[0]
                     # get the sample data
                     smps_df = pd.DataFrame(
                         data=[
                             line.strip().split('\t') 
-                            for line in tmp 
+                            for line in tmp[idx_start:] 
                             if 'SMP' in line
 
                         ],
@@ -114,13 +126,13 @@ def main(ROOTPATH):
                     msgs_df = pd.DataFrame(
                         data=[
                             line.strip().split('\t') 
-                            for line in tmp
+                            for line in tmp[idx_start:]
                             # Select only messages sent to the tracker 
                             if 'Message' in line
-                            # Select only messages sent by the experiment code
-                            and '_' in line
-                            # Remove block related messages
-                            and 'StartBlock' not in line
+                            # # Select only messages sent by the experiment code
+                            # and '_' in line
+                            # # Remove block related messages
+                            # and 'StartBlock' not in line
                         ],
                         columns=['Time', 'Type', 'Trial', 'Message']
                     )[[
