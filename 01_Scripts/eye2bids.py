@@ -213,7 +213,9 @@ def main(ROOTPATH):
     else:
         returnMessage = 'The remote folder is not mounted!'
     return returnMessage
-# %% let's actually export data
+#===============================================================================
+# %% run conversion
+#===============================================================================
 if __name__ == '__main__':
     ROOTPATH = Path(sys.argv[1])
     output = main(ROOTPATH)
