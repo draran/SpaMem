@@ -1,4 +1,4 @@
-#!/Users/uqdrange/miniconda3/envs/devns/bin/python
+#!/Users/Shared/Scratch/Experiments/DB-SpaMem-01/envs/bin/python
 '''
 Author: Dragan Rangelov (d.rangelov@uq.edu.au)
 File Created: 2021-01-13
