@@ -1,4 +1,4 @@
-#!/Users/uqdrange/anaconda2/envs/mne/bin/python
+#!/Users/Shared/Scratch/Experiments/DB-SpaMem-01/envs/bin/python
 '''
 Author: Dragan Rangelov (d.rangelov@uq.edu.au)
 File Created: 2020-12-10
@@ -32,6 +32,18 @@ logging.basicConfig(
     datefmt=date_format
 )
 #===============================================================================
+# %% testing parameters 
+# DONE: comment these out
+#===============================================================================
+# ROOTPATH = Path('/Volumes/COSMOS2018-I1002')
+# ipath = (
+#     ROOTPATH 
+#     / 'Raw_data_all' 
+#     / 'Behav_Eye' 
+#     / 'P01' 
+#     / 'Subject1_Session1_EYE__block_1 Samples.txt'
+# )
+#===============================================================================
 # %% define main function
 #===============================================================================
 def main(ROOTPATH):
@@ -43,9 +55,10 @@ def main(ROOTPATH):
         - success or error
     '''
     if ROOTPATH.exists():
+        logging.warning('Finding all relevant files to convert')
         # list all available data sets
         iData = sorted(ROOTPATH.glob(
-            "Raw_data_all/Behav_Eye/P*/Subject*Samples.txt"
+            "**/Behav_Eye/P*/Subject*Samples.txt"
         ))
         for ipath in iData:
             try:
@@ -67,118 +80,85 @@ def main(ROOTPATH):
                     continue
                 # convert the eye data
                 logging.warning('Converting {}'.format(ipath.stem))
-                # NOTE: the first message per recording run is "StartBlock_"
-                # NOTE: we will export only the recorded data for a given run 
+                # load the eye data
                 with open(ipath, 'r', encoding='utf-8') as f:
-                    # load the eye data
                     tmp = f.readlines()
-                    # save the meta data
-                    iInfo = dict([
-                        (entry.split(':\t')[0], entry.split(':\t')[1]) 
-                        for entry in [
-                            line.strip().strip('## ') for line in tmp
-                            # header lines are marked with ##
-                            if '##' in line
-                        ]
-                        if ':\t' in entry
-                    ])
-                    idx_start = [
-                        idx 
-                        for idx, line in enumerate(tmp)
-                        if 'StartBlock_{}'.format(int(runID)) in line
+                # save the meta data
+                iInfo = dict([
+                    (entry.split(':\t')[0], entry.split(':\t')[1]) 
+                    for entry in [
+                        line.strip().strip('## ') for line in tmp
+                        # header lines are marked with ##
+                        if '##' in line
                     ]
-                    # check if there were more than one starting messages
-                    if len(idx_start) > 1:
-                        raise IndexError
-                    else:
-                        idx_start = idx_start[0]
-                    # get the sample data
-                    smps_df = pd.DataFrame(
-                        data=[
-                            line.strip().split('\t') 
-                            for line in tmp[idx_start:] 
-                            if 'SMP' in line
+                    if ':\t' in entry
+                ])
+                # get the sample data
+                smps_df = pd.DataFrame(
+                    data=[
+                        line.strip().split('\t') 
+                        for line in tmp
+                        if 'SMP' in line
 
-                        ],
-                        columns=[
-                            line.strip().split('\t')
-                            for line in tmp
-                            if '##' not in line
-                            and 'SMP' not in line
-                            and 'MSG' not in line
-                        # this will result in only one element
-                        # and the last two col names are not needed
-                        ][0][:-2]
-                    # select only the needed columns
-                    )[[
-                        'Time',
-                        'L Raw X [px]',
-                        'L Raw Y [px]',
-                        'L Mapped Diameter [mm]'
-                    # specify data types
-                    ]].astype({
-                        'Time':'int64',
-                        'L Raw X [px]':'float',
-                        'L Raw Y [px]':'float',
-                        'L Mapped Diameter [mm]':'float'
-                    })
-                    # get the message data
-                    msgs_df = pd.DataFrame(
-                        data=[
-                            line.strip().split('\t') 
-                            for line in tmp[idx_start:]
-                            # Select only messages sent to the tracker 
-                            if 'Message' in line
-                            # # Select only messages sent by the experiment code
-                            # and '_' in line
-                            # # Remove block related messages
-                            # and 'StartBlock' not in line
-                        ],
-                        columns=['Time', 'Type', 'Trial', 'Message']
-                    )[[
-                        'Time',
-                        'Message'
-                    ]].astype({
-                        'Time':'int64',
-                        'Message':'str'
-                    })
-                    # encode block type and the event separately
-                    [
-                        msgs_df['blockType'],
-                        msgs_df['event']
-                    ] = zip(*[
-                        msg.split(': ')[-1].split('_') 
-                        for msg in msgs_df['Message']
-                    ])
-                    # recode the events using eeg trigger values
-                    msgs_df = msgs_df.replace(
-                        to_replace=dict(
-                            blockType=dict(
-                                Spatial=1,
-                                NonSpatial=2,
-                                TrueSpatial=3
-                            ),
-                            event=dict(
-                                StartCue=10,
-                                StartEnc=20,
-                                StartMaint=30
-                            )
-                        ),
-
-                    )
-                    msgs_df['Trig'] = msgs_df['blockType'] + msgs_df['event']
-                # %% create event array
-                idx_trig = np.argmin(
-                    np.abs(
-                        msgs_df['Time'].values[:, None] 
-                        - smps_df['Time'].values[None]
-                    ), 1
-                ) 
-                events = np.stack([
-                    idx_trig,
-                    np.zeros(idx_trig.size),
-                    msgs_df['Trig'].values
-                ], 1).astype('int')
+                    ],
+                    columns=[
+                        line.strip().split('\t')
+                        for line in tmp
+                        if '##' not in line
+                        and 'SMP' not in line
+                        and 'MSG' not in line
+                    # this will result in only one element
+                    # and the last two col names are not needed
+                    ][0][:-2]
+                # select only the needed columns
+                )[[
+                    'Time',
+                    'L Raw X [px]',
+                    'L Raw Y [px]',
+                    'L Mapped Diameter [mm]'
+                # specify data types
+                ]].astype({
+                    'Time':'int64',
+                    'L Raw X [px]':'float',
+                    'L Raw Y [px]':'float',
+                    'L Mapped Diameter [mm]':'float'
+                })
+                smps_df['Timestamp'] = pd.to_datetime(
+                    smps_df['Time'],
+                    unit='us'
+                )
+                # get the message data
+                msgs_df = pd.DataFrame(
+                    data=[
+                        line.strip().split('\t') 
+                        for line in tmp
+                        # Select only messages sent to the tracker 
+                        if 'Message' in line
+                        # # Select only messages sent by the experiment code
+                        # and '_' in line
+                        # # Remove block related messages
+                        # and 'StartBlock' not in line
+                    ],
+                    columns=['Time', 'Type', 'Trial', 'Message']
+                )[[
+                    'Time',
+                    'Message'
+                ]].astype({
+                    'Time':'int64',
+                    'Message':'str'
+                })
+                msgs_df['Description'] = msgs_df['Message'].apply(
+                    lambda x: x.split(': ')[-1]
+                )
+                msgs_df['Timestamp'] = pd.to_datetime(
+                    msgs_df['Time'],
+                    unit='us'
+                )
+                msgs_df['Timedelta'] = (
+                    msgs_df['Timestamp'] 
+                    - smps_df['Timestamp'][0]
+                )
+                msgs_df['Onsets'] = msgs_df['Timedelta'] / np.timedelta64(1, 's')
                 # %% create raw array of idata
                 rawInfo = mne.create_info(
                     [
@@ -198,13 +178,22 @@ def main(ROOTPATH):
                 rawInfo['iView opts'] = iInfo
                 rawData = mne.io.RawArray(
                     np.concatenate([
-                        smps_df.values.T[1:],
+                        smps_df[[
+                            'L Raw X [px]', 
+                            'L Raw Y [px]', 
+                            'L Mapped Diameter [mm]'
+                        ]].values.T,
                         np.zeros(smps_df.shape[0])[None]
                     ]),
                     rawInfo
                 )
-                # TODO: create annotations instead of events
-                rawData.add_events(events)
+                # create annotations from messages
+                rawAnnotations = mne.Annotations(
+                    onset=msgs_df['Onsets'],
+                    duration=.0001,
+                    description=msgs_df['Description']
+                )
+                rawData.set_annotations(rawAnnotations)
                 rawData.save(str(EXPORPATH))
             # catch and log an exception, continue with the next file
             except Exception as error:
