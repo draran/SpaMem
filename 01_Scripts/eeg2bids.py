@@ -14,14 +14,15 @@ Copyright 2019-2021 Dragan Rangelov, The University of Queensland
 #===============================================================================
 import pandas as pd
 from pathlib import Path
-import matplotlib as mpl
-mpl.use('qt5agg')
-import matplotlib.pyplot as plt
-plt.ion()
 import logging
 import mne
 import numpy as np
 import sys
+# %% plotting libraries DONE: comment this out if running jobs
+# import matplotlib as mpl
+# mpl.use('qt5agg')
+# import matplotlib.pyplot as plt
+# plt.ion()
 #===============================================================================
 # %% format logger
 #===============================================================================
@@ -45,16 +46,16 @@ def main(ROOTPATH):
     if ROOTPATH.exists():
         # list all available data sets
         eegData = sorted(ROOTPATH.glob(
-            '**/EEG-P*/*.vhdr'
+            '**/Rawdata/EEG-P*/*.vhdr'
         ))
         for epath in eegData:
             try:
                 # encode sub and run IDs
-                subID = str(epath.parent).split('/')[-1].strip('EEG-P')
+                subID = str(epath.parent).split('/')[-1].strip('EEG-P').rjust(3,'0')
                 # create the export folder
                 EXPORPATH = (
                     ROOTPATH
-                    / 'BIDS_Rawdata'
+                    / '02_Rawdata'
                     / 'sub-{}'.format(subID)
                     / 'eeg'
                     / 'sub-{}_task-WM_eeg-raw.fif.gz'.format(subID)

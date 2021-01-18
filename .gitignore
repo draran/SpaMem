@@ -4,4 +4,5 @@
 !.gitignore
 !01_Scripts/
 # ignore tmp files
-*log
+*.log
+*.out

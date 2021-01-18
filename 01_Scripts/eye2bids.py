@@ -14,14 +14,15 @@ Copyright 2019-2020 Dragan Rangelov, The University of Queensland
 #===============================================================================
 import pandas as pd
 from pathlib import Path
-import matplotlib as mpl
-mpl.use('qt5agg')
-import matplotlib.pyplot as plt
-plt.ion()
 import logging
 import mne
 import numpy as np
 import sys
+# %% plotting libraries DONE: comment this out if running jobs
+# import matplotlib as mpl
+# mpl.use('qt5agg')
+# import matplotlib.pyplot as plt
+# plt.ion()
 #===============================================================================
 # %% format logger
 #===============================================================================
@@ -63,15 +64,15 @@ def main(ROOTPATH):
         for ipath in iData:
             try:
                 # encode sub and run IDs
-                subID = str(ipath.parent).split('/')[-1].strip('P')
+                subID = str(ipath.parent).split('/')[-1].strip('P').rjust(3,'0')
                 runID = ipath.stem.split('_')[-1].split(' ')[0].rjust(2, '0')
                 # create the export folder
                 EXPORPATH = (
                     ROOTPATH
-                    / 'BIDS_Rawdata'
+                    / '02_Rawdata'
                     / 'sub-{}'.format(subID)
                     / 'eye'
-                    / 'sub-{}_task-WM_run-{}_eye.fif.gz'.format(subID, runID)
+                    / 'sub-{}_task-WM_run-{}_eye-raw.fif.gz'.format(subID, runID)
                 )
                 EXPORPATH.parent.mkdir(parents=True, exist_ok=True)
                 # skip conversion if the data have been converted already
