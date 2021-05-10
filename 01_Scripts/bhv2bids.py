@@ -1,4 +1,4 @@
-#!/Users/Shared/Scratch/Experiments/DB-SpaMem-01/envs/bin/python
+#!/projects/im34/miniconda/envs/spamem_env/bin/python
 '''
 Author: Dragan Rangelov (d.rangelov@uq.edu.au)
 File Created: 2021-01-13
@@ -112,6 +112,10 @@ def main(ROOTPATH):
                 bhv_df_all = []
                 for fpath in fpaths: 
                     matData = loadmat(fpath, simplify_cells=True)['OUTPUT']
+                    x_centre, y_centre = [
+                        matData['screen']['widthpixel'] * .5,
+                        matData['screen']['heightpixel'] * .5
+                    ]
                     bhv_df = pd.DataFrame(
                         data=matData['data'],
                         columns=[
@@ -170,6 +174,11 @@ def main(ROOTPATH):
                                 ], -1),
                                 columns=stimInfo_cnames
                         ).values
+                    
+                    # center coordinates to the screen centre
+                    for col in range(1, 7):
+                        bhv_df[f'X_{col}'] -= x_centre
+                        bhv_df[f'Y_{col}'] -= y_centre
                     
                     bhv_df_all += [bhv_df]
                 # concatenate all bhv data into one data frame

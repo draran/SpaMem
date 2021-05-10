@@ -6,3 +6,4 @@
 # ignore tmp files
 *.log
 *.out
+*.ipynb*
